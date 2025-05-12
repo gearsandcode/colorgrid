@@ -30,11 +30,11 @@
   border: none;
   color: white;
   font-size: 16px;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   padding: 0;
   margin: 0;
   text-align: left;
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .input-container input::-webkit-outer-spin-button,
@@ -63,7 +63,7 @@
 .hex-label {
   color: white;
   font-size: 14px;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   opacity: 0.9;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 4px 6px;
@@ -80,7 +80,7 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .white-dot {

@@ -4,24 +4,24 @@ import React, {
   useEffect,
   useRef,
   useMemo,
-} from "react";
-import ColorGrid from "./components/ColorGrid";
-import ColorSwatch from "./components/ColorSwatch";
-import Toast from "./components/Toast";
-import { ColorSwatch as ColorSwatchType, Dot } from "./types";
+} from 'react';
+import ColorGrid from './components/ColorGrid';
+import ColorSwatch from './components/ColorSwatch';
+import Toast from './components/Toast';
+import { ColorSwatch as ColorSwatchType, Dot } from './types';
 import {
   labToRgb,
   rgbToHex,
   calculateContrastRatio,
   rgbToHsb,
-} from "./utils/colorUtils";
-import "./App.css";
-import "./styles/Dot.css";
-import "./styles/HexTooltip.css";
-import "./styles/ExportStyles.css";
+} from './utils/colorUtils';
+import './App.css';
+import './styles/Dot.css';
+import './styles/HexTooltip.css';
+import './styles/ExportStyles.css';
 
-const STORAGE_KEY = "colorGridSwatches";
-const HEX_STORAGE_KEY = "colorGridHexCode";
+const STORAGE_KEY = 'colorGridSwatches';
+const HEX_STORAGE_KEY = 'colorGridHexCode';
 
 const initialLValues10 = [95, 85, 75, 65, 55, 45, 35, 25, 15, 5];
 const initialLValues14 = [97, 93, 88, 79, 70, 62, 54, 46, 38, 30, 21, 12, 7, 4];
@@ -48,7 +48,7 @@ const createInitialSwatches = (lValues: number[]) => {
       lValue,
       hexColor,
       whiteContrast: calculateContrastRatio(hexColor),
-      blackContrast: calculateContrastRatio(hexColor, "#000000"),
+      blackContrast: calculateContrastRatio(hexColor, '#000000'),
     };
   });
 };
@@ -56,7 +56,7 @@ const createInitialSwatches = (lValues: number[]) => {
 const App: React.FC = () => {
   const [keyHexCode, setKeyHexCode] = useState(() => {
     const savedHexCode = localStorage.getItem(HEX_STORAGE_KEY);
-    return savedHexCode || "0080FF";
+    return savedHexCode || '0080FF';
   });
   const [inputHexCode, setInputHexCode] = useState(keyHexCode);
   const [hue, setHue] = useState(() => {
@@ -68,46 +68,46 @@ const App: React.FC = () => {
   });
   const [isFiltering, setIsFiltering] = useState(false);
   const [showGuides, setShowGuides] = useState(false);
-  const [wcagLevel, setWcagLevel] = useState<"none" | "A" | "AA" | "AAA">(
-    "none"
+  const [wcagLevel, setWcagLevel] = useState<'none' | 'A' | 'AA' | 'AAA'>(
+    'none'
   );
   const [isPickingColor, setIsPickingColor] = useState(false);
   const [activeSwatchId, setActiveSwatchId] = useState<number | null>(null);
   const [activeLValue, setActiveLValue] = useState<number | null>(null);
   const [activeDots, setActiveDots] = useState<Set<string>>(new Set());
   const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
-  const [activeTab, setActiveTab] = useState<"10" | "14" | "18">("10");
+  const [activeTab, setActiveTab] = useState<'10' | '14' | '18'>('10');
   const [swatches10, setSwatches10] = useState<ColorSwatchType[]>(() => {
-    const savedSwatches = localStorage.getItem(STORAGE_KEY + "_10");
+    const savedSwatches = localStorage.getItem(STORAGE_KEY + '_10');
     if (savedSwatches) {
       try {
         return JSON.parse(savedSwatches);
       } catch (e) {
-        console.error("Failed to parse saved swatches:", e);
+        console.error('Failed to parse saved swatches:', e);
         return createInitialSwatches(initialLValues10);
       }
     }
     return createInitialSwatches(initialLValues10);
   });
   const [swatches14, setSwatches14] = useState<ColorSwatchType[]>(() => {
-    const savedSwatches = localStorage.getItem(STORAGE_KEY + "_14");
+    const savedSwatches = localStorage.getItem(STORAGE_KEY + '_14');
     if (savedSwatches) {
       try {
         return JSON.parse(savedSwatches);
       } catch (e) {
-        console.error("Failed to parse saved swatches:", e);
+        console.error('Failed to parse saved swatches:', e);
         return createInitialSwatches(initialLValues14);
       }
     }
     return createInitialSwatches(initialLValues14);
   });
   const [swatches18, setSwatches18] = useState<ColorSwatchType[]>(() => {
-    const savedSwatches = localStorage.getItem(STORAGE_KEY + "_18");
+    const savedSwatches = localStorage.getItem(STORAGE_KEY + '_18');
     if (savedSwatches) {
       try {
         return JSON.parse(savedSwatches);
       } catch (e) {
-        console.error("Failed to parse saved swatches:", e);
+        console.error('Failed to parse saved swatches:', e);
         return createInitialSwatches(initialLValues18);
       }
     }
@@ -129,22 +129,22 @@ const App: React.FC = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY + "_10", JSON.stringify(swatches10));
+    localStorage.setItem(STORAGE_KEY + '_10', JSON.stringify(swatches10));
   }, [swatches10]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY + "_14", JSON.stringify(swatches14));
+    localStorage.setItem(STORAGE_KEY + '_14', JSON.stringify(swatches14));
   }, [swatches14]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY + "_18", JSON.stringify(swatches18));
+    localStorage.setItem(STORAGE_KEY + '_18', JSON.stringify(swatches18));
   }, [swatches18]);
 
   useEffect(() => {
@@ -153,7 +153,7 @@ const App: React.FC = () => {
 
   const handleHexCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newHexCode = e.target.value
-      .replace(/[^0-9A-Fa-f]/g, "")
+      .replace(/[^0-9A-Fa-f]/g, '')
       .slice(0, 6)
       .toUpperCase();
     setInputHexCode(newHexCode);
@@ -174,7 +174,7 @@ const App: React.FC = () => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       updateHexCode();
     }
   };
@@ -187,9 +187,9 @@ const App: React.FC = () => {
   );
 
   const currentSwatches = useMemo(() => {
-    return activeTab === "10"
+    return activeTab === '10'
       ? swatches10
-      : activeTab === "14"
+      : activeTab === '14'
       ? swatches14
       : swatches18;
   }, [activeTab, swatches10, swatches14, swatches18]);
@@ -198,7 +198,7 @@ const App: React.FC = () => {
     return currentSwatches.map((s) => s.lValue);
   }, [currentSwatches]);
 
-  const handleWcagChange = (level: "none" | "A" | "AA" | "AAA") => {
+  const handleWcagChange = (level: 'none' | 'A' | 'AA' | 'AAA') => {
     setWcagLevel(level);
   };
 
@@ -206,9 +206,9 @@ const App: React.FC = () => {
     setIsPickingColor(!isPickingColor);
     if (!isPickingColor) {
       const swatch =
-        activeTab === "10"
+        activeTab === '10'
           ? swatches10
-          : activeTab === "14"
+          : activeTab === '14'
           ? swatches14
           : swatches18;
       setActiveSwatchId(id);
@@ -221,9 +221,9 @@ const App: React.FC = () => {
 
   const handleLValueChange = (id: number, value: number) => {
     const setCurrentSwatches =
-      activeTab === "10"
+      activeTab === '10'
         ? setSwatches10
-        : activeTab === "14"
+        : activeTab === '14'
         ? setSwatches14
         : setSwatches18;
     setCurrentSwatches((prevSwatches) =>
@@ -236,7 +236,7 @@ const App: React.FC = () => {
             lValue: value,
             hexColor,
             whiteContrast: calculateContrastRatio(hexColor),
-            blackContrast: calculateContrastRatio(hexColor, "#000000"),
+            blackContrast: calculateContrastRatio(hexColor, '#000000'),
           };
         }
         return swatch;
@@ -248,9 +248,9 @@ const App: React.FC = () => {
     (dot: Dot) => {
       if (isPickingColor && activeSwatchId !== null) {
         const setCurrentSwatches =
-          activeTab === "10"
+          activeTab === '10'
             ? setSwatches10
-            : activeTab === "14"
+            : activeTab === '14'
             ? setSwatches14
             : setSwatches18;
         setCurrentSwatches((prevSwatches) =>
@@ -260,7 +260,7 @@ const App: React.FC = () => {
                 ...swatch,
                 hexColor: dot.hexColor,
                 whiteContrast: calculateContrastRatio(dot.hexColor),
-                blackContrast: calculateContrastRatio(dot.hexColor, "#000000"),
+                blackContrast: calculateContrastRatio(dot.hexColor, '#000000'),
               };
             }
             return swatch;
@@ -286,18 +286,14 @@ const App: React.FC = () => {
         return newSet;
       });
     },
-    [isPickingColor, activeSwatchId]
+    [isPickingColor, activeSwatchId, activeTab]
   );
-
-  const handleClearSelection = () => {
-    setActiveDots(new Set());
-  };
 
   const handleAddRamp = () => {
     const setCurrentSwatches =
-      activeTab === "10"
+      activeTab === '10'
         ? setSwatches10
-        : activeTab === "14"
+        : activeTab === '14'
         ? setSwatches14
         : setSwatches18;
     setCurrentSwatches((prevSwatches) => {
@@ -313,7 +309,7 @@ const App: React.FC = () => {
           lValue: newLValue,
           hexColor,
           whiteContrast: calculateContrastRatio(hexColor),
-          blackContrast: calculateContrastRatio(hexColor, "#000000"),
+          blackContrast: calculateContrastRatio(hexColor, '#000000'),
         },
       ];
     });
@@ -321,9 +317,9 @@ const App: React.FC = () => {
 
   const handleRemoveRamp = () => {
     const setCurrentSwatches =
-      activeTab === "10"
+      activeTab === '10'
         ? setSwatches10
-        : activeTab === "14"
+        : activeTab === '14'
         ? setSwatches14
         : setSwatches18;
     setCurrentSwatches((prevSwatches) => {
@@ -334,13 +330,13 @@ const App: React.FC = () => {
 
   const handleResetRamps = () => {
     switch (activeTab) {
-      case "10":
+      case '10':
         setSwatches10(createInitialSwatches(initialLValues10));
         break;
-      case "14":
+      case '14':
         setSwatches14(createInitialSwatches(initialLValues14));
         break;
-      case "18":
+      case '18':
         setSwatches18(createInitialSwatches(initialLValues18));
         break;
     }
@@ -350,9 +346,9 @@ const App: React.FC = () => {
     const svgWidth = 400; // Core swatch width
     const swatchHeight = 120; // Core swatch height
     const currentSwatches =
-      activeTab === "10"
+      activeTab === '10'
         ? swatches10
-        : activeTab === "14"
+        : activeTab === '14'
         ? swatches14
         : swatches18;
     const totalHeight = currentSwatches.length * swatchHeight;
@@ -384,9 +380,9 @@ const App: React.FC = () => {
 
     currentSwatches.forEach((swatch, index) => {
       const y = index * swatchHeight;
-      const textColor = swatch.lValue > 50 ? "#000000" : "#FFFFFF";
+      const textColor = swatch.lValue > 50 ? '#000000' : '#FFFFFF';
       const colorNumber = index * 50;
-      const colorName = `Color-${colorNumber < 10 ? "0" : ""}${colorNumber}`;
+      const colorName = `Color-${colorNumber < 10 ? '0' : ''}${colorNumber}`;
 
       // Core swatch rectangle
       svgContent += `
@@ -428,12 +424,12 @@ const App: React.FC = () => {
       `;
     });
 
-    svgContent += "</svg>";
+    svgContent += '</svg>';
 
-    const blob = new Blob([svgContent], { type: "image/svg+xml" });
+    const blob = new Blob([svgContent], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     a.download = `color-ramps-${activeTab}.svg`;
     document.body.appendChild(a);
@@ -442,36 +438,7 @@ const App: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
-  const getContrastFilter = () => {
-    switch (wcagLevel) {
-      case "A":
-        return {
-          isATextContrast: true,
-          isAATextContrast: false,
-          isAAATextContrast: false,
-        };
-      case "AA":
-        return {
-          isATextContrast: false,
-          isAATextContrast: true,
-          isAAATextContrast: false,
-        };
-      case "AAA":
-        return {
-          isATextContrast: false,
-          isAATextContrast: false,
-          isAAATextContrast: true,
-        };
-      default:
-        return {
-          isATextContrast: false,
-          isAATextContrast: false,
-          isAAATextContrast: false,
-        };
-    }
-  };
-
-  const handleTabChange = (tab: "10" | "14" | "18") => {
+  const handleTabChange = (tab: '10' | '14' | '18') => {
     setActiveTab(tab);
   };
 
@@ -505,8 +472,8 @@ const App: React.FC = () => {
                     <input
                       type="radio"
                       name="wcag-level"
-                      checked={wcagLevel === "none"}
-                      onChange={() => handleWcagChange("none")}
+                      checked={wcagLevel === 'none'}
+                      onChange={() => handleWcagChange('none')}
                     />
                     No WCAG Filter
                   </label>
@@ -514,8 +481,8 @@ const App: React.FC = () => {
                     <input
                       type="radio"
                       name="wcag-level"
-                      checked={wcagLevel === "A"}
-                      onChange={() => handleWcagChange("A")}
+                      checked={wcagLevel === 'A'}
+                      onChange={() => handleWcagChange('A')}
                     />
                     WCAG A (3:1)
                   </label>
@@ -523,8 +490,8 @@ const App: React.FC = () => {
                     <input
                       type="radio"
                       name="wcag-level"
-                      checked={wcagLevel === "AA"}
-                      onChange={() => handleWcagChange("AA")}
+                      checked={wcagLevel === 'AA'}
+                      onChange={() => handleWcagChange('AA')}
                     />
                     WCAG AA (4.5:1)
                   </label>
@@ -532,8 +499,8 @@ const App: React.FC = () => {
                     <input
                       type="radio"
                       name="wcag-level"
-                      checked={wcagLevel === "AAA"}
-                      onChange={() => handleWcagChange("AAA")}
+                      checked={wcagLevel === 'AAA'}
+                      onChange={() => handleWcagChange('AAA')}
                     />
                     WCAG AAA (7:1)
                   </label>
@@ -580,7 +547,7 @@ const App: React.FC = () => {
                   />
                   <button
                     onClick={updateHexCode}
-                    className={isHexValid && isHexDirty ? "active" : "disabled"}
+                    className={isHexValid && isHexDirty ? 'active' : 'disabled'}
                     disabled={!isHexValid || !isHexDirty}
                   >
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -605,26 +572,26 @@ const App: React.FC = () => {
               </div>
               <div className="ramp-tabs">
                 <button
-                  className={`tab-button ${activeTab === "10" ? "active" : ""}`}
-                  onClick={() => handleTabChange("10")}
+                  className={`tab-button ${activeTab === '10' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('10')}
                 >
                   10 ramps
                 </button>
                 <button
-                  className={`tab-button ${activeTab === "14" ? "active" : ""}`}
-                  onClick={() => handleTabChange("14")}
+                  className={`tab-button ${activeTab === '14' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('14')}
                 >
                   14 ramps
                 </button>
                 <button
-                  className={`tab-button ${activeTab === "18" ? "active" : ""}`}
-                  onClick={() => handleTabChange("18")}
+                  className={`tab-button ${activeTab === '18' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('18')}
                 >
                   18 ramps
                 </button>
               </div>
               <div className="color-ramps">
-                {activeTab === "10"
+                {activeTab === '10'
                   ? swatches10.map((swatch) => (
                       <ColorSwatch
                         key={swatch.id}
@@ -634,7 +601,7 @@ const App: React.FC = () => {
                         onClick={handleSwatchClick}
                       />
                     ))
-                  : activeTab === "14"
+                  : activeTab === '14'
                   ? swatches14.map((swatch) => (
                       <ColorSwatch
                         key={swatch.id}
@@ -681,9 +648,9 @@ const App: React.FC = () => {
             <ColorGrid
               hue={hue}
               isFiltering={isFiltering}
-              isATextContrast={wcagLevel === "A"}
-              isAATextContrast={wcagLevel === "AA"}
-              isAAATextContrast={wcagLevel === "AAA"}
+              isATextContrast={wcagLevel === 'A'}
+              isAATextContrast={wcagLevel === 'AA'}
+              isAAATextContrast={wcagLevel === 'AAA'}
               lValues={currentLValues}
               onDotClick={handleDotClick}
               activeDots={activeDots}

@@ -1,14 +1,12 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { Dot, ColorCache } from "../types";
+import React, { useEffect, useState, useCallback } from 'react';
+import { Dot, ColorCache } from '../types';
 import {
   hsbToRgb,
   rgbToHex,
   getRgbLabLightness,
-  calculateContrastRatio,
-  colorDistance,
   hexToHsb,
-} from "../utils/colorUtils";
-import "../styles/ColorGrid.css";
+} from '../utils/colorUtils';
+import '../styles/ColorGrid.css';
 
 interface ColorGridProps {
   hue: number;
@@ -89,7 +87,7 @@ const ColorGrid: React.FC<ColorGridProps> = ({
             Math.abs(keyHsb.s - saturation) < 1 &&
             Math.abs(keyHsb.b - brightness) < 1;
 
-          if (isActive) {
+          if (matchingDot && isActive) {
             matchingDot = { row, col };
           }
 
@@ -149,8 +147,8 @@ const ColorGrid: React.FC<ColorGridProps> = ({
       {dots.map((dot) => (
         <div
           key={`${dot.row}-${dot.col}`}
-          className={`dot ${dot.isActive ? "active" : ""} ${
-            dot.isFiltered ? "filtered" : ""
+          className={`dot ${dot.isActive ? 'active' : ''} ${
+            dot.isFiltered ? 'filtered' : ''
           }`}
           style={{ backgroundColor: dot.hexColor }}
           onClick={() => handleDotClick(dot)}
